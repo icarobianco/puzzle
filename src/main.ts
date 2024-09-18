@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 
-import mergeImages from 'merge-images';
+import gm from 'gm';
 
 @Component({
   selector: 'app-root',
@@ -26,10 +26,23 @@ export class App {
     if (input && input.files && input.files.length) {
       const file = input.files[0];
       const reader = new FileReader()
-      reader.onload = () => {
+      reader.onload = async () => {
         this.data.img = reader.result
 
-        // mergeImages(['/assets/knife.png', '/eyes.png']).then((b64: any) => this.data.src = b64);
+        // gm('./assets/turtle.jpg')
+        // .composite('../assets/knife.png')
+        // .watermark(50, 50)
+        // .write(this.data.img, function (err) {
+        //   if (!err) console.log('All done');
+        // });
+
+        // gm('./assets/turtle.png')
+        // .composite('./assets/knife.png')
+        // .watermark(50, 50)
+        // .write('./assets/test.jpg', function (err) {
+        //   if (!err) console.log('All done');
+        // });
+
       };
       reader.readAsDataURL(file)
       // reader.readAsArrayBuffer(file);
