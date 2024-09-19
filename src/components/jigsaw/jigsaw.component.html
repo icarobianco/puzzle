@@ -8,6 +8,10 @@
 <table>
     <tbody>
         <tr>
+            <td>Photo:</td>
+            <td><input (change)="onFileSelected($event)" #fileInput type="file" name="image" accept="image/*"></td>
+        </tr>
+        <tr>
             <td>Seed:</td>
             <td><input type="number" [(ngModel)]="seed" min="0" max="9999" name="seed" (ngModelChange)="update()"></td>
             <td><input type="range" [(ngModel)]="seed" min="0" max="9999" step="1" (ngModelChange)="update()"></td>
@@ -28,10 +32,6 @@
                 <input type="number" [(ngModel)]="xn" name="xn" (change)="update()"> x 
                 <input type="number" [(ngModel)]="yn" name="yn" (change)="update()"></td>
             <td></td>
-        </tr>
-        <tr>
-            <td>Photo:</td>
-            <td><input (change)="onFileSelected($event)" #fileInput type="file" name="image" required></td>
         </tr>
         <tr>
             <td>Size:</td>
