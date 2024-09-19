@@ -14,8 +14,11 @@
     "@angular/forms": "^18.1.0",
     "@angular/platform-browser": "^18.1.0",
     "@angular/router": "^18.1.0",
+    "buffer": "^6.0.3",
     "gm": "^1.25.0",
+    "path": "^0.12.7",
     "rxjs": "^7.8.1",
+    "sharp": "^0.33.5",
     "stream": "^0.0.3",
     "tslib": "^2.5.0",
     "util": "^0.12.5",
@@ -23,7 +26,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.1.0",
-    "@angular/cli": "^18.1.0",
+    "@angular/cli": "^18.2.5",
     "@angular/compiler-cli": "^18.1.0",
     "@types/gm": "^1.25.4",
     "typescript": "~5.5.0"

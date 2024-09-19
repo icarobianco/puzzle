@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 
 import gm from 'gm';
+import sharp from 'sharp'
 
 @Component({
   selector: 'app-root',
@@ -29,6 +30,13 @@ export class App {
       reader.onload = async () => {
         this.data.img = reader.result
 
+        sharp('./assets/turtle.jpg')
+        .composite([{ input: './assets/knife.png', gravity: 'center' }])
+        .toBuffer()
+        .then((outputBuffer) => {
+          this.data.img = outputBuffer;
+        });
+
         // gm('https://raw.githubusercontent.com/icarobianco/puzzle/188afc89a4bfc2b32d3dec6130d89fa12f3660f5/src/assets/turtle.jpg')
         // .composite('https://raw.githubusercontent.com/icarobianco/puzzle/188afc89a4bfc2b32d3dec6130d89fa12f3660f5/src/assets/knife.png')
         // .watermark(50, 50)
@@ -36,12 +44,12 @@ export class App {
         //   if (!err) console.log('All done');
         // });
 
-        gm('https://raw.githubusercontent.com/icarobianco/puzzle/188afc89a4bfc2b32d3dec6130d89fa12f3660f5/src/assets/turtle.jpg')
-        .composite('https://raw.githubusercontent.com/icarobianco/puzzle/188afc89a4bfc2b32d3dec6130d89fa12f3660f5/src/assets/knife.png')
-        .watermark(50, 50)
-        .write('./assets/test.jpg', function (err) {
-          if (!err) console.log('All done');
-        });
+        // gm('./assets/turtle.jpg')
+        // .composite('./assets/knife.png')
+        // .watermark(50, 50)
+        // .write('./assets/test.jpg', function (err) {
+        //   if (!err) console.log('All done');
+        // });
 
       };
       reader.readAsDataURL(file)
