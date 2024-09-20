@@ -38,7 +38,12 @@
             <td>
                 <input type="number" [(ngModel)]="width" name="width" (change)="update()"> x 
                 <input type="number" [(ngModel)]="height" name="height" (change)="update()"> mm</td>
-            <td><button (click)="generate()">Download SVG</button></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><button (click)="generate()">Download</button></td>
+            <td></td>
+            <td></td>
         </tr>
     </tbody>
 </table>

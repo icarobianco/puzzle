@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import EXIF from 'exif-js';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 
@@ -97,8 +98,8 @@ export class JigsawComponent implements OnInit {
   private sw() { return this.vertical ? this.width / this.xn : this.height / this.yn; }
   private ol() { return this.offset + this.sl() * (this.vertical ? this.yi : this.xi); }
   private ow() { return this.offset + this.sw() * (this.vertical ? this.xi : this.yi); }
-  private l(v:any) { var ret = this.ol() + this.sl() * v; return Math.round(ret * 100) / 100; }
-  private w(v:any) { var ret = this.ow() + this.sw() * v * (this.flip ? -1.0 : 1.0); return Math.round(ret * 100) / 100; }
+  private l(v:number) { var ret = this.ol() + this.sl() * v; return Math.round(ret * 100) / 100; }
+  private w(v:number) { var ret = this.ow() + this.sw() * v * (this.flip ? -1.0 : 1.0); return Math.round(ret * 100) / 100; }
   private p0l() { return this.l(0.0); }
   private p0w() { return this.w(0.0); }
   private p1l() { return this.l(0.2); }
@@ -196,9 +197,34 @@ export class JigsawComponent implements OnInit {
     if (input && input.files && input.files.length) {
       const file = input.files[0];
       const reader = new FileReader()
-      reader.onload = async () => {
+      reader.onload = async (e: any) => {
         this.img = reader.result
+        
         this.puzzlecontainer.nativeElement.style.backgroundImage = `url(${reader.result})`;
+
+        const img = new Image();
+        img.src = e.target.result;
+        img.onload = () => {
+            console.log('Largura: ', img.width);
+            console.log('Altura: ', img.height);
+            console.log('Tipo do arquivo: ', file.type);
+            console.log('Tamanho do arquivo: ', (file.size / 1024).toFixed(2) + ' KB');
+        };
+
+        EXIF.getData(e, (a: any) => {
+          console.log('getData: ', a);
+
+          var exifData = EXIF.pretty(a);
+          if (exifData) {
+              alert(exifData);
+          } else {
+              alert("No EXIF data found in image '" + file.name + "'.");
+          }
+        });
+
+        const t = EXIF.getAllTags(e)
+        console.log('t', t);
+
       };
       reader.readAsDataURL(file)
       // reader.readAsArrayBuffer(file);
