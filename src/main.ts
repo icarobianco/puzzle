@@ -4,6 +4,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 
 import { appConfig } from './main.config';
 
+import { TemplatesComponent } from './components/templates/templates.component';
 import { JigsawComponent } from './components/jigsaw/jigsaw.component';
 
 @Component({
@@ -11,10 +12,14 @@ import { JigsawComponent } from './components/jigsaw/jigsaw.component';
   standalone: true,
   imports: [
     CommonModule,
-    JigsawComponent
+    TemplatesComponent,
+    JigsawComponent,
   ],
   providers: [],
-  template: '<app-jigsaw>Jigsaw...</app-jigsaw>'
+  template: `
+    <app-templates>Templates...</app-templates>
+    <app-jigsaw>Jigsaw...</app-jigsaw>
+  `
 })
 export class App {
   

@@ -1,0 +1,46 @@
+div {
+    width: 100vw;
+    align-items: center;
+    text-align: center;
+    align-content: center;
+}
+
+mat-card {
+    position: relative;
+    float: left;
+    width: 30%;
+    margin: 10px;
+    border: 2px black dotted;
+    border-radius: 5%;
+}
+
+mat-card-header {
+    width: 100%;
+    padding-left: 15px;
+}
+
+mat-card-title {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 25px;
+    font-weight: 400;
+}
+
+mat-card-subtitle {
+    font-size: 15px;
+    text-align: right;
+}
+
+mat-card-content {
+    margin-bottom: 15px;
+}
+
+mat-card-content p {
+    text-align: justify;
+}
+
+mat-card-actions {
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    align-content: center;
+}
