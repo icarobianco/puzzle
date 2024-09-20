@@ -9,3 +9,16 @@ tasks:
     command: npm run start
 
 
+ports:
+    - port: 4200
+      onOpen: open-browser
+      name: App
+      description: Website Preview
+      visibility: public
+      protocol: https
+
+    - port: 9005
+      name: Firebase
+      description: Login and Deploy
+      visibility: public
+      protocol: https
