@@ -16,8 +16,10 @@
     "@angular/platform-browser": "^18.1.0",
     "@angular/router": "^18.1.0",
     "buffer": "^6.0.3",
+    "file-saver": "^2.0.5",
     "firebase": "^10.13.2",
     "gm": "^1.25.0",
+    "jszip": "^3.10.1",
     "path": "^0.12.7",
     "rxjs": "^7.8.1",
     "sharp": "^0.33.5",
@@ -30,6 +32,7 @@
     "@angular-devkit/build-angular": "^18.1.0",
     "@angular/cli": "^18.2.5",
     "@angular/compiler-cli": "^18.1.0",
+    "@types/file-saver": "^2.0.7",
     "@types/gm": "^1.25.4",
     "@types/jest": "^29.5.13",
     "typescript": "~5.5.0"

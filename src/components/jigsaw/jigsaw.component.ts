@@ -2,6 +2,9 @@ import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
+
 @Component({
   selector: 'app-jigsaw',
   standalone: true,
@@ -25,6 +28,7 @@ export class JigsawComponent implements OnInit {
   public tabSize:number = 20;
   public jitter:number = 5;
   public data:string = '';
+  public knife:string = '';
 
   private a:number = 0;
   private b:number = 0;
@@ -162,23 +166,26 @@ export class JigsawComponent implements OnInit {
 
     this.data = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.0\" ";
     this.data += "width=\"" + this.width + "mm\" height=\"" + this.height + "mm\" viewBox=\"0 0 " + this.width + " " + this.height + "\" ";
-    this.data += "style=\"background-image: url('"+this.img+"'); background-size: " + this.width + "mm " + this.height + "mm; background-repeat: no-repeat;\">";
+    this.data += "style=\"background-image: url('"+this.img+"'); background-size: " + this.width + "mm " + this.height + "mm; background-repeat: no-repeat;\"";
+    this.data += ">";
     this.data += "<path fill=\"none\" stroke=\"black\" stroke-width=\"0.1\" d=\"";
     this.data += this.gen_d();
     this.data += "\"></path></svg>";
 
-    this.save("jigsaw.svg", this.data);
+    this.knife = this.data.replace(/style="[^"]*"/, '');
+
+    this.save();
   }
 
-  private save(filename: string, data: string): void {
-
-    var blob = new Blob([data], {type: "text/csv"});
-    var elem = window.document.createElement('a');
-    elem.href = window.URL.createObjectURL(blob);
-    elem.download = filename;        
-    document.body.appendChild(elem);
-    elem.click();        
-    document.body.removeChild(elem);
+  private save(): void {
+    
+    const zip = new JSZip();
+    zip.file('image.jpg', (this.img as string).split(',')[1], { base64: true });
+    zip.file('modelo.svg', this.data);
+    zip.file('faca.svg', this.knife);
+    zip.generateAsync({ type: 'blob' }).then((blob) => {
+      saveAs(blob, 'image.zip');
+    });
   
   }
 
@@ -195,6 +202,6 @@ export class JigsawComponent implements OnInit {
       };
       reader.readAsDataURL(file)
       // reader.readAsArrayBuffer(file);
-    }
+    };
   }
 }
