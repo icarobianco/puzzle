@@ -6,6 +6,7 @@ import { appConfig } from './main.config';
 
 import { TemplatesComponent } from './components/templates/templates.component';
 import { JigsawComponent } from './components/jigsaw/jigsaw.component';
+import { UploadComponent } from './components/upload/upload.component';
 
 @Component({
   selector: 'app-root',
@@ -14,18 +15,30 @@ import { JigsawComponent } from './components/jigsaw/jigsaw.component';
     CommonModule,
     TemplatesComponent,
     JigsawComponent,
+    UploadComponent
   ],
   providers: [],
   template: `
-    <app-templates>Templates...</app-templates>
-    <app-jigsaw>Jigsaw...</app-jigsaw>
+    <div>
+      <app-upload (img)="changeImage($event)">Upload...</app-upload>
+      <app-templates [img]="img">Templates...</app-templates>
+      <app-jigsaw [img]="img">Jigsaw...</app-jigsaw>
+    </div>
   `
 })
 export class App {
   
   name = 'Puzzle';
 
+  public img: string = '';
+
   constructor(){}
+
+  changeImage(s: string) {
+    console.error('App', 'changeImage', s);
+
+    this.img = s;
+  }
 }
 
 // 

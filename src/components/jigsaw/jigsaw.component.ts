@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import EXIF from 'exif-js';
@@ -17,13 +17,8 @@ import { saveAs } from 'file-saver';
 })
 export class JigsawComponent implements OnInit {
 
-  @ViewChild('puzzlecontainer', { static: true }) 
-  puzzlecontainer!: ElementRef<SVGSVGElement>;
-  
-  @ViewChild('puzzlepath', { static: true }) 
-  puzzlepath!: ElementRef<SVGPathElement>
+  @Input() img: string = ''
 
-  public img:string | ArrayBuffer | null  = '';
   public seed:number = 1;
   public tabSize:number = 20;
   public jitter:number = 5;
@@ -54,13 +49,38 @@ export class JigsawComponent implements OnInit {
     this.update();
   }
 
+  public generate() {
+    this.offset = 0.0;
+
+    this.data = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.0\" ";
+    this.data += "width=\"" + this.width + "mm\" height=\"" + this.height + "mm\" viewBox=\"0 0 " + this.width + " " + this.height + "\" ";
+    this.data += "style=\"background-image: url('"+this.img+"'); background-size: " + this.width + "mm " + this.height + "mm; background-repeat: no-repeat;\"";
+    this.data += ">";
+    this.data += "<path fill=\"none\" stroke=\"black\" stroke-width=\"0.1\" d=\"";
+    this.data += this.gen_d();
+    this.data += "\"></path></svg>";
+
+    this.knife = this.data.replace(/style="[^"]*"/, '');
+
+    this.save();
+  }
+
+  private save(): void {
+    
+    const zip = new JSZip();
+    zip.file('image.jpg', (this.img as string).split(',')[1], { base64: true });
+    zip.file('modelo.svg', this.data);
+    zip.file('faca.svg', this.knife);
+    zip.generateAsync({ type: 'blob' }).then((blob) => {
+      saveAs(blob, 'image.zip');
+    });
+  
+  }
+
   public update():void {
     console.log('update');
     
     this.offset = 5.5;
-    this.puzzlecontainer.nativeElement.setAttribute('width', (this.width + 11).toFixed(0));
-    this.puzzlecontainer.nativeElement.setAttribute('height', (this.height + 11).toFixed(0));
-    this.puzzlepath.nativeElement.setAttribute('d', this.gen_d());
   }
 
   private random() {
@@ -159,74 +179,5 @@ export class JigsawComponent implements OnInit {
     str += "L" + this.offset + "," + this.offset + " ";
 
     return str;
-  }
-
-  public generate() {
-    this.offset = 0.0;
-
-    this.data = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.0\" ";
-    this.data += "width=\"" + this.width + "mm\" height=\"" + this.height + "mm\" viewBox=\"0 0 " + this.width + " " + this.height + "\" ";
-    this.data += "style=\"background-image: url('"+this.img+"'); background-size: " + this.width + "mm " + this.height + "mm; background-repeat: no-repeat;\"";
-    this.data += ">";
-    this.data += "<path fill=\"none\" stroke=\"black\" stroke-width=\"0.1\" d=\"";
-    this.data += this.gen_d();
-    this.data += "\"></path></svg>";
-
-    this.knife = this.data.replace(/style="[^"]*"/, '');
-
-    this.save();
-  }
-
-  private save(): void {
-    
-    const zip = new JSZip();
-    zip.file('image.jpg', (this.img as string).split(',')[1], { base64: true });
-    zip.file('modelo.svg', this.data);
-    zip.file('faca.svg', this.knife);
-    zip.generateAsync({ type: 'blob' }).then((blob) => {
-      saveAs(blob, 'image.zip');
-    });
-  
-  }
-
-  onFileSelected(event: Event): void {
-    console.error('CreateComponent -> onFileSelected');
-
-    const input = event.target as HTMLInputElement
-    if (input && input.files && input.files.length) {
-      const file = input.files[0];
-      const reader = new FileReader()
-      reader.onload = async (e: any) => {
-        this.img = reader.result
-        
-        this.puzzlecontainer.nativeElement.style.backgroundImage = `url(${reader.result})`;
-
-        const img = new Image();
-        img.src = e.target.result;
-        img.onload = () => {
-            console.log('Largura: ', img.width);
-            console.log('Altura: ', img.height);
-            console.log('Tipo do arquivo: ', file.type);
-            console.log('Tamanho do arquivo: ', (file.size / 1024).toFixed(2) + ' KB');
-        };
-
-        EXIF.getData(e, (a: any) => {
-          console.log('getData: ', a);
-
-          var exifData = EXIF.pretty(a);
-          if (exifData) {
-              alert(exifData);
-          } else {
-              alert("No EXIF data found in image '" + file.name + "'.");
-          }
-        });
-
-        const t = EXIF.getAllTags(e)
-        console.log('t', t);
-
-      };
-      reader.readAsDataURL(file)
-      // reader.readAsArrayBuffer(file);
-    };
   }
 }
