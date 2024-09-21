@@ -5,6 +5,9 @@ import EXIF from 'exif-js';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 
+import { jsPDF } from 'jspdf';
+import 'svg2pdf.js'
+
 @Component({
   selector: 'app-jigsaw',
   standalone: true,
@@ -45,11 +48,14 @@ export class JigsawComponent implements OnInit {
   constructor(){}
 
   ngOnInit(): void {
+    console.error('JigsawComponent','ngOnInit');
+
     this.seed = Math.floor(Math.random() * 10000); 
-    this.update();
   }
 
-  public generate() {
+  private generate() {
+    console.error('JigsawComponent','generate');
+
     this.offset = 0.0;
 
     this.data = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.0\" ";
@@ -61,12 +67,13 @@ export class JigsawComponent implements OnInit {
     this.data += "\"></path></svg>";
 
     this.knife = this.data.replace(/style="[^"]*"/, '');
-
-    this.save();
   }
 
-  private save(): void {
-    
+  public package(): void {
+    console.error('JigsawComponent','package');
+
+    this.generate();
+
     const zip = new JSZip();
     zip.file('image.jpg', (this.img as string).split(',')[1], { base64: true });
     zip.file('modelo.svg', this.data);
@@ -77,10 +84,36 @@ export class JigsawComponent implements OnInit {
   
   }
 
-  public update():void {
-    console.log('update');
-    
-    this.offset = 5.5;
+  public pdf(): void {
+    console.error('JigsawComponent','pdf', this.data);
+
+    this.generate();
+   
+    const pdf = new jsPDF({
+      orientation: 'landscape',
+      unit: 'mm',
+      format: [this.width, this.height],
+    });
+
+    var img = new Image()
+    img.src = this.img;
+    img.onload = () => {
+      pdf.addImage(img, 'JPG', 0, 0, this.width, this.height);
+      pdf.addPage();
+
+      const svgElement = new DOMParser().parseFromString(this.data, 'image/svg+xml').documentElement as unknown as SVGSVGElement;
+      pdf.svg(svgElement, {
+        x: 0,
+        y: 0,
+        width: this.width,
+        height: this.height,
+        loadExternalStyleSheets: true
+      })
+      .then(() => {
+        pdf.save(`modelo.pdf`);
+      })
+    }
+
   }
 
   private random() {

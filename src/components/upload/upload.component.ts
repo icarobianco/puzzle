@@ -16,7 +16,7 @@ export class UploadComponent {
   @Output() img = new EventEmitter<string>();
 
   onFileSelected(event: Event): void {
-    console.error('UploadComponent -> onFileSelected');
+    console.error('UploadComponent','onFileSelected');
 
     const input = event.target as HTMLInputElement
     if (input && input.files && input.files.length) {

@@ -35,7 +35,7 @@ export class App {
   constructor(){}
 
   changeImage(s: string) {
-    console.error('App', 'changeImage', s);
+    console.error('App', 'changeImage');
 
     this.img = s;
   }
