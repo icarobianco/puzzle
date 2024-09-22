@@ -1,7 +1,7 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, CUSTOM_ELEMENTS_SCHEMA, ElementRef, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import EXIF from 'exif-js';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 
@@ -12,15 +12,25 @@ import 'svg2pdf.js'
   selector: 'app-jigsaw',
   standalone: true,
   imports: [
+    CommonModule,
     FormsModule, 
     ReactiveFormsModule
   ],
   templateUrl: './jigsaw.component.html',
-  styleUrl: './jigsaw.component.css'
+  styleUrl: './jigsaw.component.css',
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+  ]
 })
 export class JigsawComponent implements OnInit {
 
   @Input() img: string = ''
+
+  @ViewChild('puzzlecontainer', { static: true }) 
+  puzzlecontainer!: ElementRef<SVGSVGElement>;
+  
+  @ViewChild('puzzlepath', { static: true }) 
+  puzzlepath!: ElementRef<SVGPathElement>
 
   public seed:number = 1;
   public tabSize:number = 20;
@@ -114,6 +124,15 @@ export class JigsawComponent implements OnInit {
       })
     }
 
+  }
+
+  public update():void {
+    console.log('update');
+    
+    this.offset = 5.5;
+    this.puzzlecontainer.nativeElement.setAttribute('width', (this.width + 11).toFixed(0));
+    this.puzzlecontainer.nativeElement.setAttribute('height', (this.height + 11).toFixed(0));
+    this.puzzlepath.nativeElement.setAttribute('d', this.gen_d());
   }
 
   private random() {
