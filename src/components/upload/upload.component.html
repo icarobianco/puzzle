@@ -1,10 +1,7 @@
 <div>
-    <input (change)="onFileSelected($event)" #fileInput type="file" name="image" accept="image/*">
+    <!-- <img *ngIf="img" [src]="img" alt="data Logo" (click)="fileInput.click()"> -->
+    <img width="50px" height="50px"
+        src="https://raw.githubusercontent.com/icarobianco/puzzle/63c89ef8835bc485db22c15cd00b2db8afe51e4d/src/assets/upload.svg"
+        (click)="fileInput.click()">
+    <input hidden (change)="onFileSelected($event)" #fileInput type="file" name="image" accept="image/*">
 </div>
-<!-- <div class="inputFile">
-    <img *ngIf="data.img" [src]="data.img" alt="data Logo" class="thumb" (click)="fileInput.click()">
-    <img *ngIf="!data.img"
-        src="https://cdn-assets-eu.frontify.com/s3/frontify-enterprise-files-eu/eyJwYXRoIjoid2VhcmVcL2ZpbGVcL01uWjc4RDF1V2pnbzhBUkxVSGQzLnBuZyJ9:weare:1xUfSJ5wT_EHupK1IW9eirrR739Luv4H3t5tuQr_ZiM?width=1200"
-        alt="Image" class="thumb" (click)="fileInput.click()">
-    <input hidden (change)="onFileSelected($event)" #fileInput type="file" name="image" required>
-</div> -->

@@ -1,12 +1,14 @@
-<div>
-    <button (click)="package()">Zip</button>
-    &nbsp;
-    <button (click)="pdf()">PDF</button>
+<div *ngIf="img">
+    <div>
+        <button (click)="package()">Zip</button>
+        &nbsp;
+        <button (click)="pdf()">PDF</button>
+    </div>
+    <stripe-pricing-table 
+        pricing-table-id="prctbl_1Q1NRHRtMtukq116OOILgRDA" 
+        publishable-key="pk_test_51Q0znjRtMtukq116RhcArEMEaIeyZZ1b3lipD3KhvTNI9ARpnhwXMHOZ4FJBC5DLOWjaGgwIIsMG2m69M6meJklp00XXEm2bEU">
+    </stripe-pricing-table>
 </div>
-<stripe-pricing-table pricing-table-id="prctbl_1Q1NRHRtMtukq116OOILgRDA"
-publishable-key="pk_test_51Q0znjRtMtukq116RhcArEMEaIeyZZ1b3lipD3KhvTNI9ARpnhwXMHOZ4FJBC5DLOWjaGgwIIsMG2m69M6meJklp00XXEm2bEU">
-</stripe-pricing-table>
-
 <div *ngIf="false">
     <table>
         <tbody>
