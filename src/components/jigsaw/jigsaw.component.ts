@@ -70,8 +70,7 @@ export class JigsawComponent implements OnInit {
 
     this.data = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.0\" ";
     this.data += "width=\"" + this.width + "mm\" height=\"" + this.height + "mm\" viewBox=\"0 0 " + this.width + " " + this.height + "\" ";
-    this.data += "style=\"background-image: url('"+this.img+"'); background-size: " + this.width + "mm " + this.height + "mm; background-repeat: no-repeat;\"";
-    this.data += ">";
+    this.data += "style=\"background-image: url('"+this.img+"'); background-size: " + this.width + "mm " + this.height + "mm; background-repeat: no-repeat;\">";
     this.data += "<path fill=\"none\" stroke=\"black\" stroke-width=\"0.1\" d=\"";
     this.data += this.gen_d();
     this.data += "\"></path></svg>";
@@ -95,7 +94,7 @@ export class JigsawComponent implements OnInit {
   }
 
   public pdf(): void {
-    console.error('JigsawComponent','pdf', this.data);
+    console.error('JigsawComponent','pdf');
 
     this.generate();
    
@@ -108,6 +107,8 @@ export class JigsawComponent implements OnInit {
     var img = new Image()
     img.src = this.img;
     img.onload = () => {
+      console.error('JigsawComponent','img.onload');
+
       pdf.addImage(img, 'JPG', 0, 0, this.width, this.height);
       pdf.addPage();
 
@@ -123,7 +124,7 @@ export class JigsawComponent implements OnInit {
         pdf.save(`modelo.pdf`);
       })
     }
-
+    
   }
 
   public update():void {
