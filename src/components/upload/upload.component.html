@@ -1,7 +1,13 @@
 <div>
-    <!-- <img *ngIf="img" [src]="img" alt="data Logo" (click)="fileInput.click()"> -->
-    <img width="50px" height="50px"
-        src="https://raw.githubusercontent.com/icarobianco/puzzle/63c89ef8835bc485db22c15cd00b2db8afe51e4d/src/assets/upload.svg"
-        (click)="fileInput.click()">
-    <input hidden (change)="onFileSelected($event)" #fileInput type="file" name="image" accept="image/*">
+    <mat-card appearance="outlined">
+        <mat-card-content>
+            <img width="70px" height="70px"
+                src="https://www.reshot.com/preview-assets/icons/A2JNR7LKVE/view-image-A2JNR7LKVE.svg"
+                (click)="fileInput.click()">
+            <input hidden (change)="onFileSelected($event)" #fileInput type="file" name="image" accept="image/*">
+        </mat-card-content>
+        <mat-card-actions>
+            Upload Image
+        </mat-card-actions>
+    </mat-card>
 </div>

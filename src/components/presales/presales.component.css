@@ -1,0 +1,22 @@
+div {
+    margin: 0;
+    position: absolute;
+    top: 40%;
+}
+table {
+    width: 100%;
+    text-align: center;
+}
+
+td {
+    width: 20%;
+    margin: auto;
+    align-content: center;
+}
+
+mat-card {
+    width: 90%;
+    min-height: 160px;
+    margin: auto;
+    border-radius: 4%;
+}

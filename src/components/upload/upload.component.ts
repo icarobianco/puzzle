@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-upload',
@@ -8,7 +9,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     FormsModule, 
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatCardModule
   ],
   templateUrl: './upload.component.html',
   styleUrl: './upload.component.css'

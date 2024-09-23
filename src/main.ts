@@ -4,6 +4,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 
 import { appConfig } from './main.config';
 
+import { PresalesComponent } from './components/presales/presales.component';
 import { TemplatesComponent } from './components/templates/templates.component';
 import { JigsawComponent } from './components/jigsaw/jigsaw.component';
 import { UploadComponent } from './components/upload/upload.component';
@@ -13,6 +14,7 @@ import { UploadComponent } from './components/upload/upload.component';
   standalone: true,
   imports: [
     CommonModule,
+    PresalesComponent,
     TemplatesComponent,
     JigsawComponent,
     UploadComponent
@@ -20,6 +22,7 @@ import { UploadComponent } from './components/upload/upload.component';
   providers: [],
   template: `
     <div>
+      <app-presales *ngIf="!img">Presales...</app-presales>
       <app-upload (img)="changeImage($event)">Upload...</app-upload>
       <app-templates [img]="img">Templates...</app-templates>
       <app-jigsaw [img]="img">Jigsaw...</app-jigsaw>
